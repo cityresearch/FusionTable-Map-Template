@@ -24,7 +24,7 @@
         this.locationScope = options.locationScope || "";
 
         // zoom level when map is loaded (bigger is more zoomed in)
-        this.defaultZoom = options.defaultZoom || 11; 
+        this.defaultZoom = options.defaultZoom || 12; 
 
         // center that your map defaults to
         this.map_centroid = new google.maps.LatLng(options.map_center[0], options.map_center[1]);
@@ -163,6 +163,17 @@
         self.whereClause = self.locationColumn + " not equal to ''";
         
         //-----custom filters-----
+		
+		var type_column = "'TYPE'";
+var tempWhereClause = [];
+if ( $("#cbType1").is(':checked')) tempWhereClause.push("ARTS EDUCATION");
+if ( $("#cbType2").is(':checked')) tempWhereClause.push("EMPLOYMENT SERVICES");
+if ( $("#cbType3").is(':checked')) tempWhereClause.push("RECREATIONAL ACTIVITIES");
+if ( $("#cbType4").is(':checked')) tempWhereClause.push("SUMMER/FALL CAMP");
+if ( $("#cbType5").is(':checked')) tempWhereClause.push("YOUTH MENTORING PROGRAMS");
+//if ( $("#cbType6").is(':checked')) tempWhereClause.push("Other");
+self.whereClause += " AND " + type_column + " IN ('" + tempWhereClause.join("','") + "')";
+		
         //-----end of custom filters-----
 
         self.getgeoCondition(address, function (geoCondition) {
